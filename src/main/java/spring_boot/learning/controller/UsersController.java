@@ -61,7 +61,7 @@ public class UsersController {
 		@ApiImplicitParam(name = "user", value = "用户对象", required = true, dataType = "Users")
 	})
 	@RequestMapping(value="/{id}",method = RequestMethod.PUT)
-	public Map<String,String> update(@PathVariable String id,@RequestBody Users user){
+	public Map<String,String> update(@PathVariable String id,@RequestBody @Validated Users user){
 		Users users = usersRepo.selectById(id);
 		if(user.getAge()>0)
 			users.setAge(user.getAge());
@@ -69,7 +69,7 @@ public class UsersController {
 			users.setName(user.getName());
 		if(!StringUtils.isEmpty(user.getPassword()))
 			users.setPassword(user.getPassword());
-		if(!StringUtils.isEmpty(users.getRoles()))
+		if(!StringUtils.isEmpty(user.getRoles()))
 			users.setRoles(user.getRoles());
 		Map<String, String> result = new HashMap<>();
 		result.put("result", usersRepo.update(users)+"");
